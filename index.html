@@ -277,16 +277,18 @@ function renderSetup(){
     row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:8px';
     row.innerHTML=`
       <div style="width:12px;height:12px;border-radius:50%;background:${COLORS[p.colorIdx]};flex-shrink:0"></div>
-      <input type="text" placeholder="Player ${i+1}" value="${p.name}" oninput="players[${i}].name=this.value" style="flex:1">
+      <input type="text" placeholder="Player ${i+1}" value="${p.name}" oninput="updatePlayerName(${p.id},this.value)" style="flex:1">
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
         <label style="font-size:13px;color:var(--text2)">Hdcp</label>
-        <input type="number" value="${p.hcp}" min="0" max="54" step="1" oninput="players[${i}].hcp=parseInt(this.value)||0" style="width:62px">
+        <input type="number" value="${p.hcp}" min="0" max="54" step="1" oninput="updatePlayerHcp(${p.id},this.value)" style="width:62px">
       </div>
       ${players.length>2?`<button onclick="removePlayer(${p.id})" style="border:none;background:none;color:var(--text3);font-size:20px;padding:0 2px;cursor:pointer;line-height:1">&times;</button>`:''}
     `;
     el.appendChild(row);
   });
 }
+window.updatePlayerName=function(id,val){const p=players.find(x=>x.id===id);if(p)p.name=val;};
+window.updatePlayerHcp=function(id,val){const p=players.find(x=>x.id===id);if(p)p.hcp=parseInt(val)||0;};
 
 // create game in Firebase
 window.createGame=async function(){
